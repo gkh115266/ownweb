@@ -12,7 +12,11 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://kommodo.ai/i/AbOQgcxdMZ7ZH76jJsr0');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 40px 15px;
             min-height: 100vh;
@@ -23,7 +27,7 @@
             margin: auto;
             background: #ffffff;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             border-top: 5px solid #8b0000;
             animation: fadeIn 0.6s ease-in-out;
@@ -47,7 +51,6 @@
             margin-bottom: 6px;
         }
 
-        /* Contact Details Header Styling */
         .contact-title {
             font-size: 14px;
             color: rgba(255, 255, 255, 0.9);
@@ -78,7 +81,6 @@
             box-shadow: 0 0 0 0.25rem rgba(139, 0, 0, 0.25);
         }
 
-        /* Copy Box Style */
         .info-box {
             background: #fff0f0;
             border: 2px dashed #b22222;
@@ -98,7 +100,6 @@
             word-break: break-all;
         }
 
-        /* Copy Button & Animation */
         .btn-copy {
             background: #8b0000;
             color: white;
@@ -119,9 +120,8 @@
             transform: translateY(-2px);
         }
 
-        /* Click Copy Success Animation */
         .btn-copy.copied {
-            background: #2e7d32 !important; /* Green color */
+            background: #2e7d32 !important;
             animation: bounce 0.4s ease;
         }
 
@@ -158,6 +158,7 @@
             <option value="facebook">📘 Facebook ID</option>
             <option value="telegram">✈️ Telegram Username</option>
             <option value="tiktok">🎵 TikTok IDs</option>
+            <option value="freefire">🔥 Free Fire UID</option>
         </select>
 
         <!-- Dynamic Details Boxes -->
@@ -182,9 +183,8 @@
             </div>
         </div>
 
-        <!-- TikTok Field (Two IDs: yeamint69 on top) -->
+        <!-- TikTok Field -->
         <div class="info-group d-none" id="tiktokField">
-            <!-- First TikTok ID -->
             <div class="info-box">
                 <div>
                     <small class="text-muted d-block fw-bold" style="font-size: 11px;">PRIMARY ID</small>
@@ -195,7 +195,6 @@
                 </button>
             </div>
             
-            <!-- Second TikTok ID -->
             <div class="info-box">
                 <div>
                     <small class="text-muted d-block fw-bold" style="font-size: 11px;">SECONDARY ID</small>
@@ -207,35 +206,60 @@
             </div>
         </div>
 
+        <!-- Free Fire Field -->
+        <div class="info-group d-none" id="freefireField">
+            <div class="info-box">
+                <div>
+                    <small class="text-muted d-block fw-bold" style="font-size: 11px;">PLAYER UID</small>
+                    <span class="info-text" id="ffValue">3540560479</span>
+                </div>
+                <button type="button" class="btn-copy" onclick="copyToClipboard('ffValue', this)">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 
+<!-- MPEG Background Audio Element -->
+<audio id="hackerVoice" preload="auto">
+    <source src="welcome.mpeg" type="audio/mpeg">
+</audio>
+
 <script>
-    // 1. Dropdown Selection Logic
+    // 1. Audio Play Logic (.mpeg File Support)
+    const playHackerVoice = () => {
+        const audio = document.getElementById('hackerVoice');
+        audio.play().catch(error => {
+            console.log("Audio playback waiting for user action.");
+        });
+    };
+
+    window.addEventListener('click', playHackerVoice, { once: true });
+    window.addEventListener('touchstart', playHackerVoice, { once: true });
+
+    // 2. Dropdown Selection Logic
     const select = document.getElementById('platformSelect');
     const fields = {
         facebook: document.getElementById('facebookField'),
         telegram: document.getElementById('telegramField'),
-        tiktok: document.getElementById('tiktokField')
+        tiktok: document.getElementById('tiktokField'),
+        freefire: document.getElementById('freefireField')
     };
 
     select.addEventListener('change', function () {
         const val = this.value;
-        
-        // Hide all fields first
         Object.values(fields).forEach(f => f.classList.add('d-none'));
-
-        // Show only the selected platform
         if (fields[val]) {
             fields[val].classList.remove('d-none');
         }
     });
 
-    // 2. Fast Copy to Clipboard Function with Animation
+    // 3. Fast Copy to Clipboard Function
     function copyToClipboard(elementId, btn) {
         const textToCopy = document.getElementById(elementId).innerText;
 
-        // Copy process
         const tempInput = document.createElement("input");
         tempInput.value = textToCopy;
         document.body.appendChild(tempInput);
@@ -243,7 +267,6 @@
         document.execCommand("copy");
         document.body.removeChild(tempInput);
 
-        // Animation & Text Feedback
         const oldHtml = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
         btn.classList.add('copied');
