@@ -12,7 +12,8 @@
 
     <style>
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://kommodo.ai/i/AbOQgcxdMZ7ZH76jJsr0');
+            /* লোকাল ব্যাকগ্রাউন্ড ইমেজ যুক্ত করা হয়েছে */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -222,13 +223,13 @@
     </div>
 </div>
 
-<!-- MPEG Background Audio Element -->
+<!-- Local Audio Element -->
 <audio id="hackerVoice" preload="auto">
     <source src="welcome.mpeg" type="audio/mpeg">
 </audio>
 
 <script>
-    // 1. Audio Play Logic (.mpeg File Support)
+    // 1. Audio Play Logic
     const playHackerVoice = () => {
         const audio = document.getElementById('hackerVoice');
         audio.play().catch(error => {
